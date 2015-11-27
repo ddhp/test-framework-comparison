@@ -1,0 +1,71 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="node_modules/mocha/mocha.css">
+
+  <script type="text/javascript" src="node_modules/mocha/mocha.js"></script>
+  <script type="text/javascript" src="node_modules/chai/chai.js"></script>
+  <script type="text/javascript" src="node_modules/sinon/pkg/sinon.js"></script>
+  
+</head>
+<body>
+  <div id="mocha">
+    
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    var assert = chai.assert;
+    var expect = chai.expect;
+    mocha.setup('bdd');
+    describe('Mocha, Chai and Sinon', function () {
+      it('should able to run', function () {
+        assert.typeOf('foo', 'string')
+      });
+
+      it('can spy with sinon', function () {
+        var foo = sinon.spy();
+        foo();
+        expect(foo.callCount).to.equal(1);
+      });
+
+      it('actally calls fn with spy', function () {
+        var foo = {
+          bar: function () {
+            this.changed = true;
+          }
+        };
+        sinon.spy(foo, 'bar');
+        foo.bar();
+        expect(foo.changed).to.equal(true);
+      });
+
+      it('does not calls fn with stub', function () {
+        var foo = {
+          bar: function () {
+            this.changed = true;
+          }
+        };
+        sinon.stub(foo, 'bar');
+        foo.bar();
+        expect(foo.changed).to.equal(undefined);
+      });
+
+      it('has mock feature', function () {
+        var foo = {
+          bar: function () {
+            this.changed = true;
+          }
+        };
+        var mock = sinon.mock(foo);
+        sinon.mock(foo).expects('bar').once();
+        foo.bar();
+        expect(foo.changed).to.equal(undefined);
+        mock.verify();
+      });
+    });
+    mocha.run();
+    console.log(assert.typeOf('foo', 'string'));
+  </script>
+</body>
+</html>

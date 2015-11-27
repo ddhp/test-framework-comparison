@@ -1,0 +1,16 @@
+{
+  "name": "test-framework-comparison",
+  "version": "0.0.0",
+  "description": "demostrate different test framework and library",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ddhp",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2"
+  }
+}
