@@ -9,47 +9,10 @@
   <script type="text/javascript" src="jasmine/lib/jasmine-2.3.4/jasmine.js"></script>
   <script type="text/javascript" src="jasmine/lib/jasmine-2.3.4/jasmine-html.js"></script>
   <script type="text/javascript" src="jasmine/lib/jasmine-2.3.4/boot.js"></script>
-  <script type="text/javascript" src="node_modules/chai/chai.js"></script>
+  <script type="text/javascript" src="node_modules/jasmine-ajax/lib/mock-ajax.js"></script>
+  <script type="text/javascript" src="node_modules/q/q.js"></script>
 
-  <script type="text/javascript" charset="utf-8">
-    var assert = chai.assert;
-    // assert.typeOf('foo', 'string');
-
-    describe('Jasmine', function () {
-      it('should able to run', function () {
-        expect(true).toEqual(true);
-      });
-
-      it('can use spy', function () {
-        var foo = jasmine.createSpy();
-        foo();
-        expect(foo.calls.count()).toEqual(1);
-      });
-
-      it('does not call fn when spy', function () {
-        var foo = {
-          bar: function () {
-            this.changed = true;
-          }
-        };
-        spyOn(foo, 'bar');
-        foo.bar();
-        expect(foo.changed).toEqual(undefined);
-      });
-
-      it('calls fn with and.callthrough method of spy', function () {
-        var foo = {
-          bar: function () {
-            this.changed = true;
-          }
-        };
-        spyOn(foo, 'bar');
-        foo.bar.and.callThrough();
-        foo.bar();
-        expect(foo.changed).toEqual(true);
-      });
-    });
-  </script>
+  <script type="text/javascript" charset="utf-8" src="jasmine.js"></script>
   
 </head>
 </html>
