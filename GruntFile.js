@@ -1,7 +1,8 @@
 module.exports = function (grunt) {
   'use strict';
 
-  require('load-grunt-tasks')(grunt);
+  // istanbul template mixin conflict with load-grunt-tasks
+  // require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     mocha: {
@@ -24,6 +25,27 @@ module.exports = function (grunt) {
           ]
         }
         // src: '', // bad practice, src for test is setup inside each tests
+      },
+      coverage: {
+        src: ['script.js'],
+        options: {
+          specs: ['jasmine.js'],
+          vendor: [
+            'node_modules/jasmine-ajax/lib/mock-ajax.js',
+            'node_modules/q/q.js'
+            ],
+          template: require('grunt-template-jasmine-istanbul'),
+          templateOptions: {
+            coverage: 'bin/coverage/coverage.json',
+            report: 'bin/coverage',
+            thresholds: {
+              lines: 75,
+              statements: 75,
+              branches: 75,
+              functions: 90
+            }
+          }
+        }
       }
     },
 
@@ -36,4 +58,7 @@ module.exports = function (grunt) {
       }
     }
   });
+  
+  // comment out following line if you use load-grunt-tasks
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 };
