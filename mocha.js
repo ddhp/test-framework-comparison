@@ -1,7 +1,25 @@
+var isServerSide = false;
+if (typeof require !== 'undefined') {
+  if (typeof chai === 'undefined') {
+    var chai = require('chai');
+    var chaiAsPromised = require('chai-as-promised');
+    chai.use(chaiAsPromised);
+  }
+  if (typeof mocha === 'undefined') {
+    var mocha = require('mocha');
+  }
+  if (typeof sinon === 'undefined') {
+    var sinon = require('sinon');
+  }
+  if (typeof q === 'undefined') {
+    var Q = require('q');
+  }
+  isServerSide = true;
+}
+
 var assert = chai.assert;
 var expect = chai.expect;
 
-mocha.setup('bdd');
 describe('Mocha, Chai and Sinon', function () {
   it('should able to run', function () {
     assert.typeOf('foo', 'string')
@@ -48,21 +66,24 @@ describe('Mocha, Chai and Sinon', function () {
     mock.verify();
   });
 
-  it('mock ajax with sinon', function () {
-    var spy = sinon.spy();
-    var fakeXhr = sinon.useFakeXMLHttpRequest();
-    fakeXhr.onCreate = function (req) {
-      requests.push(req);
-    }
-    var requests = [];
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', spy); 
-    xhr.open('GET', 'mock/url', true);
-    xhr.send();
-    requests[0].respond(200, {}, 'done');
-    expect(spy.calledOnce).to.equal(true);
-    fakeXhr.restore();
-  });
+  // nodejs doesn't have XMLHttpRequest
+  if (!isServerSide) {
+    it('mock ajax with sinon', function () {
+      var spy = sinon.spy();
+      var fakeXhr = sinon.useFakeXMLHttpRequest();
+      fakeXhr.onCreate = function (req) {
+        requests.push(req);
+      }
+      var requests = [];
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', spy); 
+      xhr.open('GET', 'mock/url', true);
+      xhr.send();
+      requests[0].respond(200, {}, 'done');
+      expect(spy.calledOnce).to.equal(true);
+      fakeXhr.restore();
+    });
+  }
 
   it('supports done for async behavior', function (done) {
     function createPromise() {
@@ -103,5 +124,4 @@ describe('Mocha, Chai and Sinon', function () {
     return createPromise().should.eventually.equal('mockResponse');
   });
 });
-mocha.run();
 console.log(assert.typeOf('foo', 'string'));

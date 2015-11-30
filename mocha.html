@@ -10,12 +10,17 @@
   <script type="text/javascript" src="node_modules/chai-as-promised/lib/chai-as-promised.js"></script>
   <script type="text/javascript" src="node_modules/sinon/pkg/sinon.js"></script>
   <script type="text/javascript" src="node_modules/q/q.js"></script>
+  <script src="node_modules/phantomjs-polyfill/bind-polyfill.js" type="text/javascript" charset="utf-8"></script>
   
 </head>
 <body>
-  <div id="mocha">
-    
-  </div>
+  <div id="mocha"></div>
+  <script type="text/javascript" charset="utf-8">
+    mocha.setup('bdd');
+  </script>
   <script type="text/javascript" charset="utf-8" src="mocha.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    mocha.run();
+  </script>
 </body>
 </html>
